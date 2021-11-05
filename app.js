@@ -72,6 +72,9 @@ server.on('clientConnected', function (client) {
 });
 server.on('ready', setup);
 
+
+
+const fs = require('fs')
 server.on('published', function(packet, client) {
   //当客户端有连接发布主题消息
   var topic = packet.topic;
@@ -79,6 +82,13 @@ server.on('published', function(packet, client) {
   switch (topic) {
     case '/mqtt/force':
       console.log('/mqtt/force', packet.payload.toString());
+      try {
+        let data =  packet.payload.toString() +"\r\n"
+        fs.writeFileSync('./log.txt', data,{ flag: 'a+' }, (err) => {})
+        //file written successfully
+      } catch (err) {
+        console.error(err)
+      }
       //MQTT转发主题消息
       // server.publish({ topic: 'other', payload: 'sssss' });
       break;
