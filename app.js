@@ -72,6 +72,11 @@ server.on('clientConnected', function (client) {
 });
 server.on('ready', setup);
 
+server.on('message',function(topic,message){
+  console.log(topic)
+  console.log(message)
+})
+
 
 function setup() {
     console.log('Mosca server is up and running');
