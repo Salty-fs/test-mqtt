@@ -72,10 +72,26 @@ server.on('clientConnected', function (client) {
 });
 server.on('ready', setup);
 
-server.on('message',function(topic,message){
-  console.log(topic)
-  console.log(message)
-})
+server.on('published', function(packet, client) {
+  //当客户端有连接发布主题消息
+  var topic = packet.topic;
+  console.log(packet);
+  switch (topic) {
+    case '/mqtt/force':
+      console.log('/mqtt/force', packet.payload.toString());
+      //MQTT转发主题消息
+      // server.publish({ topic: 'other', payload: 'sssss' });
+      break;
+    case 'other':
+      console.log('other', packet.payload.toString());
+      break;
+    }
+  }
+);
+// server.on('message',function(topic,message){
+//   console.log(topic)
+//   console.log(message)
+// })
 
 
 function setup() {
