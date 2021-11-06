@@ -6,6 +6,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var forceRouter = require('./routes/force')
 
 var app = express();
 
@@ -31,6 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/force',forceRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -81,7 +83,7 @@ server.on('published', function(packet, client) {
   console.log(packet);
   switch (topic) {
     case '/mqtt/force':
-      console.log('/mqtt/force', packet.payload.toString());
+      console.log('/mqtt/force', packet);
       try {
         let data =  packet.toString() +"\r\n"
         fs.writeFileSync('./log.txt', data,{ flag: 'a+' }, (err) => {})
