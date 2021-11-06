@@ -83,7 +83,7 @@ server.on('published', function(packet, client) {
     case '/mqtt/force':
       console.log('/mqtt/force', packet.payload.toString());
       try {
-        let data =  packet.payload.toString() +"\r\n"
+        let data =  packet.toString() +"\r\n"
         fs.writeFileSync('./log.txt', data,{ flag: 'a+' }, (err) => {})
         //file written successfully
       } catch (err) {
