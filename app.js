@@ -52,62 +52,58 @@ app.use(function(err, req, res, next) {
 
 
 
-var mosca = require('mosca');
+// var mosca = require('mosca');
 
-var ascoltatore = {
+// var ascoltatore = {
     //using ascoltatore
     //type: 'mongo',
     //url: 'mongodb://localhost:27017/mqtt',
     //pubsubCollection: 'ascoltatori',
     //mongo: {}
-};
+// };
 
-var settings = {
-    port: 1883,
-    backend: ascoltatore
-};
+// var settings = {
+//     port: 1883,
+//     backend: ascoltatore
+// };
 
-var server = new mosca.Server(settings);
+// var server = new mosca.Server(settings);
 
-server.on('clientConnected', function (client) {
-    console.log('client connected', client.id);
-});
-server.on('ready', setup);
-
-
-
-const fs = require('fs')
-server.on('published', function(packet, client) {
-  //当客户端有连接发布主题消息
-  var topic = packet.topic;
-  console.log(packet);
-  switch (topic) {
-    case '/mqtt/force':
-      console.log('/mqtt/force', packet);
-      try {
-        let data =  packet.toString() +"\r\n"
-        fs.writeFileSync('./log.txt', data,{ flag: 'a+' }, (err) => {})
-        //file written successfully
-      } catch (err) {
-        console.error(err)
-      }
-      //MQTT转发主题消息
-      // server.publish({ topic: 'other', payload: 'sssss' });
-      break;
-    case 'other':
-      console.log('other', packet.payload.toString());
-      break;
-    }
-  }
-);
-// server.on('message',function(topic,message){
-//   console.log(topic)
-//   console.log(message)
-// })
+// server.on('clientConnected', function (client) {
+//     console.log('client connected', client.id);
+// });
+// server.on('ready', setup);
 
 
-function setup() {
-    console.log('Mosca server is up and running');
-}
+
+// const fs = require('fs')
+// server.on('published', function(packet, client) {
+//   //当客户端有连接发布主题消息
+//   var topic = packet.topic;
+//   console.log(packet);
+//   switch (topic) {
+//     case '/mqtt/force':
+//       console.log('/mqtt/force', packet);
+//       try {
+//         let data =  packet.toString() +"\r\n"
+//         fs.writeFileSync('./log.txt', data,{ flag: 'a+' }, (err) => {})
+//         //file written successfully
+//       } catch (err) {
+//         console.error(err)
+//       }
+//       //MQTT转发主题消息
+//       // server.publish({ topic: 'other', payload: 'sssss' });
+//       break;
+//     case 'other':
+//       console.log('other', packet.payload.toString());
+//       break;
+//     }
+//   }
+// );
+
+
+// function setup() {
+//     console.log('Mosca server is up and running');
+// }
 
 module.exports = app;
